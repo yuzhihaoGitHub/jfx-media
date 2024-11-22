@@ -73,7 +73,8 @@ public class MediaVlc {
 
 //        embeddedMediaPlayer.media().play(params.get(0));
 //        embeddedMediaPlayer.media().play("http://192.168.4.231:7080/34020000001320000001/1050002775.live.flv");
-        embeddedMediaPlayer.media().play("rtmp://192.168.4.231:7935/34020000001320000001/1050002775");
+//        embeddedMediaPlayer.media().play("rtmp://192.168.4.231:7935/34020000001320000001/1050002775");
+        embeddedMediaPlayer.media().play("rtsp://admin:FJTech508@192.168.4.200:554/h264/ch1/main/av_stream");
 
         embeddedMediaPlayer.controls().setPosition(0.4f);
     }
