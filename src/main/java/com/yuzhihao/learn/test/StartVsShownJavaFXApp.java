@@ -1,4 +1,4 @@
-package com.yuzhihao.learn.vlcj.test;
+package com.yuzhihao.learn.test;
 
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;

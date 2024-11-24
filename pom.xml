@@ -26,18 +26,33 @@
         <tag/>
         <url/>
     </scm>
+
     <properties>
         <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+        <charm.version>6.2.3</charm.version>
+        <attach.version>4.0.21</attach.version>
+        <connect.version>2.0.1</connect.version>
+        <gluonfx.maven.plugin.version>1.0.24</gluonfx.maven.plugin.version>
+        <main.class>com.yuzhihao.learn.VlcjApplication</main.class>
+        <app.identifier>${main.class}</app.identifier>
+        <app.description>The HelloGluon app</app.description>
+        <package.type/>
+        <mac.app.store/>
+        <mac.signing.user.name/>
+        <bundle.version/>
+        <bundle.short.version/>
+        <version.code/>
+        <provided.keystore.path/>
+        <provided.keystore.password/>
+        <provided.key.alias/>
+        <provided.key.alias.password/>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <!-- JavaFX Dependencies -->
@@ -68,7 +83,58 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-glisten</artifactId>
+            <version>${charm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>display</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>lifecycle</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>statusbar</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>storage</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>util</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.30.2-GA</version>
+        </dependency>
+
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>Gluon</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
 
     <build>
         <plugins>
@@ -88,10 +154,97 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.yuzhihao.learn.vlcj.VlcjApplication</mainClass>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>${gluonfx.maven.plugin.version}</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <target>${gluonfx.target}</target>
+                    <attachList>
+                        <list>display</list>
+                        <list>lifecycle</list>
+                        <list>statusbar</list>
+                        <list>storage</list>
+                    </attachList>
+                    <mainClass>${main.class}</mainClass>
+                    <appIdentifier>${app.identifier}</appIdentifier>
+                    <releaseConfiguration>
+                        <vendor>Gluon</vendor>
+                        <description>${app.description}</description>
+                        <packageType>${package.type}</packageType>
+                        <!-- for macOS/iOS -->
+                        <macAppStore>${mac.app.store}</macAppStore>
+                        <bundleShortVersion>${bundle.short.version}</bundleShortVersion>
+                        <bundleVersion>${bundle.version}</bundleVersion>
+                        <!-- for Android -->
+                        <versionCode>${version.code}</versionCode>
+                        <providedKeyStorePath>${provided.keystore.path}</providedKeyStorePath>
+                        <providedKeyStorePassword>${provided.keystore.password}</providedKeyStorePassword>
+                        <providedKeyAlias>${provided.key.alias}</providedKeyAlias>
+                        <providedKeyAliasPassword>${provided.key.alias.password}</providedKeyAliasPassword>
+                    </releaseConfiguration>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>desktop</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gluonfx.target>host</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac</id>
+            <properties>
+                <package.type>pkg</package.type>
+                <mac.app.store>false</mac.app.store>
+                <bundle.version>2.${env.GITHUB_RUN_NUMBER}</bundle.version>
+                <bundle.short.version>1.0</bundle.short.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>macstore</id>
+            <properties>
+                <package.type>pkg</package.type>
+                <mac.app.store>true</mac.app.store>
+                <bundle.version>2.${env.GITHUB_RUN_NUMBER}</bundle.version>
+                <bundle.short.version>1.6</bundle.short.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>ios</id>
+            <properties>
+                <gluonfx.target>ios</gluonfx.target>
+                <bundle.version>${env.GITHUB_RUN_NUMBER}</bundle.version>
+                <bundle.short.version>1.0</bundle.short.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>android</id>
+            <properties>
+                <gluonfx.target>android</gluonfx.target>
+                <app.identifier>com.gluonhq.samples.hellogluon</app.identifier>
+                <version.code>${env.GITHUB_RUN_NUMBER}</version.code>
+                <provided.keystore.path>${env.GLUON_ANDROID_KEYSTOREPATH}</provided.keystore.path>
+                <provided.keystore.password>${env.GLUON_ANDROID_KEYSTORE_PASSWORD}</provided.keystore.password>
+                <provided.key.alias>${env.GLUON_ANDROID_KEYALIAS}</provided.key.alias>
+                <provided.key.alias.password>${env.GLUON_ANDROID_KEYALIAS_PASSWORD}</provided.key.alias.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>pi</id>
+            <properties>
+                <gluonfx.target>linux-aarch64</gluonfx.target>
+            </properties>
+        </profile>
+    </profiles>
 </project>

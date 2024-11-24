@@ -1,4 +1,4 @@
-package com.yuzhihao.learn.vlcj;
+package com.yuzhihao.learn;
 
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;

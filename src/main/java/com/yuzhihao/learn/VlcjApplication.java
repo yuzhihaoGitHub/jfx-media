@@ -1,25 +1,23 @@
-package com.yuzhihao.learn.vlcj;
+package com.yuzhihao.learn;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.Optional;
+
 import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
-import static javafx.scene.input.MouseEvent.MOUSE_ENTERED;
 
 /**
  *
@@ -56,7 +54,6 @@ public class VlcjApplication extends Application {
         rectangle.setScaleY(0.1);
         rectangle.setRotate(45);
 
-
         rectangle.addEventHandler(MOUSE_CLICKED, new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
@@ -79,11 +76,17 @@ public class VlcjApplication extends Application {
         Pane root = new Pane(rectangle,button);
 
 
+        FXMLLoader load = new FXMLLoader(getClass().getResource("/base.fxml"));
 
-//        primaryStage.setScene(new Scene(root,300,300));
+        load.setControllerFactory(context::getBean);
+
+        System.out.println(Optional.ofNullable(load.getController()));
+
+        primaryStage.setScene(new Scene(load.load()));
         primaryStage.show();
+        System.out.println(Optional.ofNullable(load.getController()));
 
-        vlc.start(primaryStage);
+//        vlc.start(primaryStage);
     }
 
     @Override
