@@ -1,8 +1,17 @@
 spring:
   application:
-    name: vlcj
-  devtools:
-    restart:
-      enabled: true
+    name: VLCJ
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
 server:
   port: 8081
+mybatis-plus:
+  # 搜索指定包别名
+  type-aliases-package: com.yuzhihao.learn.**.entity
+  # 全局配置
+  global-config:
+    db-config:
+      # 主键
+      id-type: auto

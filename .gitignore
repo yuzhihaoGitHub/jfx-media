@@ -28,6 +28,7 @@ HELP.md
 target/
 media/
 logs/
+db/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

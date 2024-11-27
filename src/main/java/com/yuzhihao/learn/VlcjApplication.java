@@ -1,23 +1,35 @@
 package com.yuzhihao.learn;
 
+import com.gluonhq.attach.display.DisplayService;
+import com.gluonhq.attach.util.Platform;
+import com.gluonhq.charm.glisten.application.AppManager;
+import com.gluonhq.charm.glisten.layout.layer.PopupView;
+import com.gluonhq.charm.glisten.visual.Swatch;
+import com.yuzhihao.learn.javassist.AppManagerJavassist;
+import com.yuzhihao.learn.ui.ApplicationLayer;
+import com.yuzhihao.learn.ui.ApplicationView;
+import com.yuzhihao.learn.ui.init.NavigationDrawerItemInit;
+import com.yuzhihao.learn.ui.view.CameraListView;
+import com.yuzhihao.learn.ui.view.IndexView;
+import com.yuzhihao.learn.ui.view.PlayGroupsView;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Dimension2D;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Optional;
-
-import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
+import java.util.Objects;
 
 /**
  *
@@ -27,72 +39,69 @@ import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
  */
 @SpringBootApplication
 public class VlcjApplication extends Application {
+
     private ConfigurableApplicationContext context;
 
-    private final MediaVlc vlc = new MediaVlc();
+    private AppManager appManager;
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    @Override
-    public void init() {
+    private void postInit(Scene scene) {
+        Swatch.BLUE.assignTo(scene);
 
-        context = SpringApplication.run(VlcjApplication.class);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/styles.css")).toExternalForm());
+
+        if (Platform.isDesktop()) {
+            Dimension2D dimension2D = DisplayService.create()
+                    .map(DisplayService::getDefaultDimensions)
+                    .orElse(new Dimension2D(640 * 2, 720));
+            scene.getWindow().setWidth(dimension2D.getWidth());
+            scene.getWindow().setHeight(dimension2D.getHeight());
+        }
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // 在这里设置 JavaFX 界面
-        primaryStage.setTitle("JavaFX + Spring Boot");
+    public void init() {
+        AppManagerJavassist.javassist();
 
-        Rectangle rectangle = new Rectangle(100, 50, Color.BLUE);
+        appManager = AppManager.initialize(this::postInit);
 
-        rectangle.setX(100);
-        rectangle.setY(100);
-        rectangle.setScaleX(0.1);
-        rectangle.setScaleY(0.1);
-        rectangle.setRotate(45);
+        context = SpringApplication.run(VlcjApplication.class);
 
-        rectangle.addEventHandler(MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                if(MOUSE_CLICKED.equals(event.getEventType())){
-                    rectangle.setScaleX(rectangle.getScaleX()+0.1);
-                    rectangle.setScaleY(rectangle.getScaleX()+0.1);
-                }
-                System.out.println(event.getEventType());
-                System.out.println(event.getSource());
-            }
+        appManager.addViewFactory(ApplicationView.HOME_VIEW, IndexView::new);
+        appManager.addViewFactory(ApplicationView.INDEX_VIEW, IndexView::new);
+        appManager.addViewFactory(ApplicationView.CAMERA_LIST, CameraListView::new);
+        appManager.addViewFactory(ApplicationView.PLAY_GROUPS, PlayGroupsView::new);
+
+        appManager.addLayerFactory(ApplicationLayer.HOME_LAYER, ()->{
+            Label label = new Label("Hello World!");
+            label.setTextFill(Color.BLUE);
+            label.setFont(Font.font(50));
+            VBox ownerNode = new VBox(label);
+            ownerNode.setAlignment(Pos.CENTER);
+            ownerNode.setPrefSize(appManager.getView().getWidth(),appManager.getView().getHeight());
+            ownerNode.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            PopupView popupView = new PopupView(ownerNode);
+            popupView.setContent(ownerNode);
+            popupView.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+            return popupView;
         });
 
-        Button button = new Button("click me");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println(event+"click me");
-            }
-        });
-        Pane root = new Pane(rectangle,button);
+        NavigationDrawerItemInit.init();
+    }
 
-
-        FXMLLoader load = new FXMLLoader(getClass().getResource("/base.fxml"));
-
-        load.setControllerFactory(context::getBean);
-
-        System.out.println(Optional.ofNullable(load.getController()));
-
-        primaryStage.setScene(new Scene(load.load()));
-        primaryStage.show();
-        System.out.println(Optional.ofNullable(load.getController()));
-
-//        vlc.start(primaryStage);
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("VLCJ MEDIA PLAYER");
+        appManager.start(stage);
     }
 
     @Override
     public void stop() {
         context.close();
-        vlc.stop();
     }
 
 }

@@ -48,11 +48,24 @@
         <provided.keystore.password/>
         <provided.key.alias/>
         <provided.key.alias.password/>
+        <mybatis.plus.version>3.5.9</mybatis.plus.version>
     </properties>
     <dependencies>
+
+        <!--   数据库     -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.3.232</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
         </dependency>
 
         <!-- JavaFX Dependencies -->
