@@ -1,7 +1,10 @@
 package com.yuzhihao.learn.h2.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.yuzhihao.learn.h2.entity.SysDevice;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,5 +22,12 @@ public interface ISysDeviceService extends IService<SysDevice> {
      * @return
      */
     SysDevice getByDeviceId(String deviceId);
+
+    /**
+     * 获取设备信息
+     * @param device
+     * @return
+     */
+    PageInfo<SysDevice> lists(int pageIndex, SysDevice device);
 
 }

@@ -2,13 +2,12 @@ package com.yuzhihao.learn.ui.dialog;
 
 import com.gluonhq.charm.glisten.control.Dialog;
 import com.gluonhq.charm.glisten.control.TextField;
-import com.gluonhq.charm.glisten.control.Toast;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.yuzhihao.learn.config.SpringUtils;
 import com.yuzhihao.learn.h2.entity.SysDevice;
+import com.yuzhihao.learn.h2.entity.SysDict;
 import com.yuzhihao.learn.h2.service.ISysDictService;
 import com.yuzhihao.learn.ui.util.UiUtil;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -22,9 +21,8 @@ import javafx.util.StringConverter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * 设备增改弹窗
@@ -34,18 +32,20 @@ import java.util.Objects;
 @Log4j2
 public class SysDeviceDialog {
 
-    private static final List<Pair<String, String>> FIRM_LIST = new ArrayList<>();
+    private final List<Pair<String, String>> FIRM_LIST = new ArrayList<>();
 
     private final boolean isUpdate;
 
-    private final Dialog<?> dialog = new Dialog<>();
+    private final SysDevice sysDevice;
+
+    private final Dialog<ButtonType> dialog = new Dialog<>();
     private final TextField nameField = new TextField();
     private final ChoiceBox<Pair<String, String>> firmField = new ChoiceBox<>();
     private final TextField ipField = new TextField();
     private final TextField passwordField = new TextField();
     private final TextField accountField = new TextField();
 
-    static {
+    {
         FIRM_LIST.addAll(SpringUtils.getBean(ISysDictService.class).manufacturer());
     }
 
@@ -72,6 +72,7 @@ public class SysDeviceDialog {
 
     public SysDeviceDialog(boolean isUpdate) {
         this.isUpdate = isUpdate;
+        this.sysDevice = new SysDevice();
     }
 
     public SysDeviceDialog(SysDevice device) {
@@ -81,13 +82,14 @@ public class SysDeviceDialog {
         this.accountField.setText(device.getUsername());
         this.passwordField.setText(device.getPassword());
         this.firmField.setValue(FIRM_LIST.stream().filter(e -> e.getValue().equals(device.getCompany())).findFirst().get());
+        this.sysDevice = device;
     }
 
-    public void show() {
-        Platform.runLater(this::showp);
+    public Optional<ButtonType> show() {
+        return showp();
     }
 
-    public void showp() {
+    public Optional<ButtonType> showp() {
 
         dialog.setAutoHide(false);
 
@@ -104,14 +106,17 @@ public class SysDeviceDialog {
         dialog.setContent(getContent());
 
         Button closeBtn = new Button("关闭");
-        closeBtn.setOnAction((e) -> dialog.hide());
+        closeBtn.setOnAction((e) -> {
+            dialog.setResult(ButtonType.CANCEL);
+            dialog.hide();
+        });
 
         Button confirmBtn = new Button(isUpdate ? "确认修改" : "确认添加");
         confirmBtn.setOnAction((e) -> confirm());
 
         dialog.getButtons().addAll(closeBtn, confirmBtn);
 
-        dialog.showAndWait();
+        return dialog.showAndWait();
 
     }
 
@@ -141,7 +146,46 @@ public class SysDeviceDialog {
             return;
         }
 
+        if (isUpdate) {
+            update();
+        } else {
+            insert();
+        }
+        dialog.setResult(ButtonType.OK);
         dialog.hide();
+    }
+
+    private void update() {
+        sysDevice.setCustomName(nameField.getText());
+        sysDevice.setIp(ipField.getText());
+        sysDevice.setCompany(firmField.getValue().getValue());
+        sysDevice.setUsername(accountField.getText());
+        sysDevice.setPassword(passwordField.getText());
+        proxyUrl(sysDevice);
+        sysDevice.updateById();
+    }
+
+    private void insert() {
+        SysDevice sysDevice = new SysDevice();
+        sysDevice.setDeviceId(UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+        sysDevice.setRegisterTime(LocalDateTime.now());
+        sysDevice.setKeepaliveTime(LocalDateTime.now());
+        sysDevice.setCustomName(nameField.getText());
+        sysDevice.setIp(ipField.getText());
+        sysDevice.setCompany(firmField.getValue().getValue());
+        sysDevice.setUsername(accountField.getText());
+        sysDevice.setPassword(passwordField.getText());
+        proxyUrl(sysDevice);
+        sysDevice.insert();
+    }
+
+    private void proxyUrl(SysDevice device) {
+        SysDict sysDict = SpringUtils.getBean(ISysDictService.class).manufacturerGet(device.getCompany());
+        String url = sysDict.getRemark()
+                .replace("${username}", device.getUsername())
+                .replace("${password}", device.getPassword())
+                .replace("${ip}", device.getIp());
+        device.setProxyUrl(url);
     }
 
 

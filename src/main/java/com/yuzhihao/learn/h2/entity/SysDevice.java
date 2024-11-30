@@ -2,6 +2,8 @@ package com.yuzhihao.learn.h2.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,6 +27,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "SYS_DEVICE", autoResultMap = true)
 public class SysDevice extends Model<SysDevice> implements Serializable{
+
+    @TableField(exist = false)
+    private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -157,6 +162,11 @@ public class SysDevice extends Model<SysDevice> implements Serializable{
     private String password;
 
     /**
+     * 流代理地址
+     */
+    private String proxyUrl;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
@@ -180,10 +190,24 @@ public class SysDevice extends Model<SysDevice> implements Serializable{
     @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
 
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+
     @Override
     public String toString() {
         return "SysDevice{" +
                 "id=" + id +
+                "selected=" + selected +
                 ", deviceId='" + deviceId + '\'' +
                 ", customName='" + customName + '\'' +
                 ", name='" + name + '\'' +
@@ -208,6 +232,7 @@ public class SysDevice extends Model<SysDevice> implements Serializable{
                 ", localIp='" + localIp + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
+                ", proxyUrl='" + proxyUrl + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", createBy='" + createBy + '\'' +

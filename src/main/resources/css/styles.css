@@ -2,3 +2,12 @@
     -fx-font-size: 1em;
     -fx-text-fill: -primary-swatch-700;
 }
+
+.button {
+    -fx-padding: 5 10 5 10; /* 上, 右, 下, 左 */
+}
+
+.toggle-button  {
+    -fx-padding: 0 0 0 0; /* 上, 右, 下, 左 */
+}
+

@@ -1,11 +1,14 @@
 package com.yuzhihao.learn.ui.view;
 
+import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.bar.VlcjDefaultHeaderBar;
 import com.yuzhihao.learn.ui.dialog.SysDeviceDialog;
 import javafx.geometry.Pos;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +31,11 @@ public class IndexView extends View {
 
         fab.showOn(this);
         fab.setOnAction(event -> {
-            new SysDeviceDialog(false).show();
+            new SysDeviceDialog(false).show().ifPresent(type-> {
+                if(type.equals(ButtonType.OK)) {
+                    getAppManager().switchView(ApplicationView.CAMERA_LIST);
+                }
+            });
         });
     }
 

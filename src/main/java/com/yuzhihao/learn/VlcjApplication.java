@@ -9,9 +9,11 @@ import com.yuzhihao.learn.javassist.AppManagerJavassist;
 import com.yuzhihao.learn.ui.ApplicationLayer;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.init.NavigationDrawerItemInit;
+import com.yuzhihao.learn.ui.util.TablePageInfo;
 import com.yuzhihao.learn.ui.view.CameraListView;
 import com.yuzhihao.learn.ui.view.IndexView;
 import com.yuzhihao.learn.ui.view.PlayGroupsView;
+import com.yuzhihao.learn.ui.view.StreamConfigListView;
 import javafx.application.Application;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
@@ -25,6 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,10 +40,11 @@ import java.util.Objects;
  *
  * @author yuzhihao
  */
+@Log4j2
 @SpringBootApplication
 public class VlcjApplication extends Application {
 
-    private ConfigurableApplicationContext context;
+    public static ConfigurableApplicationContext context;
 
     private AppManager appManager;
 
@@ -56,7 +60,7 @@ public class VlcjApplication extends Application {
         if (Platform.isDesktop()) {
             Dimension2D dimension2D = DisplayService.create()
                     .map(DisplayService::getDefaultDimensions)
-                    .orElse(new Dimension2D(640 * 2, 720));
+                    .orElse(new Dimension2D(1120, 720));
             scene.getWindow().setWidth(dimension2D.getWidth());
             scene.getWindow().setHeight(dimension2D.getHeight());
         }
@@ -74,6 +78,7 @@ public class VlcjApplication extends Application {
         appManager.addViewFactory(ApplicationView.INDEX_VIEW, IndexView::new);
         appManager.addViewFactory(ApplicationView.CAMERA_LIST, CameraListView::new);
         appManager.addViewFactory(ApplicationView.PLAY_GROUPS, PlayGroupsView::new);
+        appManager.addViewFactory(ApplicationView.STREAM_CONFIG_LIST, StreamConfigListView::new);
 
         appManager.addLayerFactory(ApplicationLayer.HOME_LAYER, ()->{
             Label label = new Label("Hello World!");
@@ -97,6 +102,17 @@ public class VlcjApplication extends Application {
     public void start(Stage stage) {
         stage.setTitle("VLCJ MEDIA PLAYER");
         appManager.start(stage);
+
+        // 监听场景的宽度变化
+        stage.getScene().widthProperty().addListener((observable, oldValue, newValue) -> {
+//            log.info("监听场景的宽度变化, oldValue: {}, newValue: {}", oldValue, newValue);
+        });
+
+        // 监听场景的高度变化
+        stage.getScene().heightProperty().addListener((observable, oldValue, newValue) -> {
+
+//            log.info("监听场景的高度变化, oldValue: {}, newValue: {}", oldValue, newValue);
+        });
     }
 
     @Override

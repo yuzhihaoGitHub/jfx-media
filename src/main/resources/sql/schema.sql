@@ -27,6 +27,7 @@ CREATE TABLE sys_device
     local_ip         VARCHAR(50)     DEFAULT NULL,        -- 系统本地IP
     username         VARCHAR(512)    DEFAULT NULL,        -- ZLM媒体服务器拉流URL
     password         VARCHAR(512)    DEFAULT NULL,        -- ZLM 流状态
+    proxy_url        VARCHAR(1024)   DEFAULT NULL,        -- 流代理地址
     create_time      DATETIME        DEFAULT NULL,        -- 创建时间
     update_time      DATETIME        DEFAULT NULL,        -- 更新时间
     create_by        VARCHAR(64)     DEFAULT NULL,        -- 创建人

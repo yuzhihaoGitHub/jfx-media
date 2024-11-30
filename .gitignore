@@ -26,7 +26,6 @@ replay_pid*
 =======
 HELP.md
 target/
-media/
 logs/
 db/
 !.mvn/wrapper/maven-wrapper.jar

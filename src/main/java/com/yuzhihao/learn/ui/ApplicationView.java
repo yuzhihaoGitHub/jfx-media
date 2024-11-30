@@ -16,5 +16,7 @@ public class ApplicationView {
     public final static String CAMERA_LIST = "camera_list";
     public final static String PLAY_GROUPS = "play_groups";
 
+    public final static String STREAM_CONFIG_LIST = "Stream_Config_List_View";
+
 
 }

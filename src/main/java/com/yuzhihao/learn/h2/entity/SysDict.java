@@ -2,6 +2,8 @@ package com.yuzhihao.learn.h2.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -26,6 +28,9 @@ public class SysDict extends Model<SysDict> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @TableField(exist = false)
+    private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     /**
      * 字典编码
@@ -74,6 +79,12 @@ public class SysDict extends Model<SysDict> implements Serializable {
     private String status;
 
     /**
+     * 状态（正常 停用）
+     */
+    @TableField(exist = false)
+    private String configType;
+
+    /**
      * 创建者
      */
     @TableField(fill = FieldFill.INSERT)
@@ -101,6 +112,19 @@ public class SysDict extends Model<SysDict> implements Serializable {
      * 备注
      */
     private String remark;
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
 
     @Override
     public String toString() {

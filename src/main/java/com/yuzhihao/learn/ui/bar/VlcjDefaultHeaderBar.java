@@ -8,10 +8,7 @@ import com.yuzhihao.learn.ui.ApplicationLayer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.AllArgsConstructor;
@@ -54,14 +51,19 @@ public class VlcjDefaultHeaderBar {
         );
 
 
-        MenuItem settings = new MenuItem("Settings");
-
-        settings.setGraphic(MaterialDesignIcon.SETTINGS.graphic());
-        settings.setOnAction((e) -> {
-            AppManager.getInstance().showLayer(ApplicationLayer.HOME_LAYER);
-        });
-        appBar.getMenuItems().addAll(settings, new MenuItem("Settings"), new MenuItem("Settings"));
-
+        MenuItem mi = new MenuItem("我的");
+        mi.setGraphic(MaterialDesignIcon.ACCOUNT_CIRCLE.graphic());
+        mi.setOnAction((e) -> AppManager.getInstance().showLayer(ApplicationLayer.HOME_LAYER));
+        MenuItem logout = new MenuItem("退出登陆");
+        logout.setGraphic(MaterialDesignIcon.CANCEL.graphic());
+        logout.setOnAction((e) -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "确定要退出吗？");
+            alert.showAndWait().ifPresent(buttonType -> {
+                        log.info("退出登陆:{}",e);
+                    });
+                }
+        );
+        appBar.getMenuItems().addAll(mi, logout);
     }
 
 

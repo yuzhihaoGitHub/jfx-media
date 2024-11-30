@@ -18,8 +18,43 @@ public interface ISysDictService extends IService<SysDict> {
 
     /**
      * 获取厂商 k v
+     *
      * @return
      */
-    public List<Pair<String, String>> manufacturer();
+    List<Pair<String, String>> manufacturer();
 
+    /**
+     * 获取
+     *
+     * @return
+     */
+    boolean manufacturerInsert(SysDict dict);
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    boolean manufacturerUpdate(SysDict dict);
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    SysDict manufacturerGet(String key);
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    List<SysDict> manufacturerList();
+
+    /**
+     * 删除
+     *
+     * @return
+     */
+    boolean delete(List<SysDict> dicts);
 }
