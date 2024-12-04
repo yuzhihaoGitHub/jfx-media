@@ -5,15 +5,12 @@ import com.gluonhq.attach.util.Platform;
 import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.layout.layer.PopupView;
 import com.gluonhq.charm.glisten.visual.Swatch;
+import com.yuzhihao.learn.config.ThreadPoolEnum;
 import com.yuzhihao.learn.javassist.AppManagerJavassist;
 import com.yuzhihao.learn.ui.ApplicationLayer;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.init.NavigationDrawerItemInit;
-import com.yuzhihao.learn.ui.util.TablePageInfo;
-import com.yuzhihao.learn.ui.view.CameraListView;
-import com.yuzhihao.learn.ui.view.IndexView;
-import com.yuzhihao.learn.ui.view.PlayGroupsView;
-import com.yuzhihao.learn.ui.view.StreamConfigListView;
+import com.yuzhihao.learn.ui.view.*;
 import javafx.application.Application;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
@@ -44,7 +41,7 @@ import java.util.Objects;
 @SpringBootApplication
 public class VlcjApplication extends Application {
 
-    public static ConfigurableApplicationContext context;
+    private ConfigurableApplicationContext context;
 
     private AppManager appManager;
 
@@ -70,49 +67,28 @@ public class VlcjApplication extends Application {
     public void init() {
         AppManagerJavassist.javassist();
 
-        appManager = AppManager.initialize(this::postInit);
+        ThreadPoolEnum.数据处理线程池.execute(()->{
+            context = SpringApplication.run(VlcjApplication.class);
+            MediaSplashView.progress(100,"加载完成！");
+        });
 
-        context = SpringApplication.run(VlcjApplication.class);
+        appManager = AppManager.initialize(this::postInit);
 
         appManager.addViewFactory(ApplicationView.HOME_VIEW, IndexView::new);
         appManager.addViewFactory(ApplicationView.INDEX_VIEW, IndexView::new);
+        appManager.addViewFactory(AppManager.SPLASH_VIEW, MediaSplashView::new);
         appManager.addViewFactory(ApplicationView.CAMERA_LIST, CameraListView::new);
         appManager.addViewFactory(ApplicationView.PLAY_GROUPS, PlayGroupsView::new);
         appManager.addViewFactory(ApplicationView.STREAM_CONFIG_LIST, StreamConfigListView::new);
 
-        appManager.addLayerFactory(ApplicationLayer.HOME_LAYER, ()->{
-            Label label = new Label("Hello World!");
-            label.setTextFill(Color.BLUE);
-            label.setFont(Font.font(50));
-            VBox ownerNode = new VBox(label);
-            ownerNode.setAlignment(Pos.CENTER);
-            ownerNode.setPrefSize(appManager.getView().getWidth(),appManager.getView().getHeight());
-            ownerNode.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-            PopupView popupView = new PopupView(ownerNode);
-            popupView.setContent(ownerNode);
-            popupView.setBackground(new Background(new BackgroundFill(Color.DARKGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-
-            return popupView;
-        });
-
         NavigationDrawerItemInit.init();
+
     }
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("VLCJ MEDIA PLAYER");
+        stage.setTitle("VLCJ多媒体播放器");
         appManager.start(stage);
-
-        // 监听场景的宽度变化
-        stage.getScene().widthProperty().addListener((observable, oldValue, newValue) -> {
-//            log.info("监听场景的宽度变化, oldValue: {}, newValue: {}", oldValue, newValue);
-        });
-
-        // 监听场景的高度变化
-        stage.getScene().heightProperty().addListener((observable, oldValue, newValue) -> {
-
-//            log.info("监听场景的高度变化, oldValue: {}, newValue: {}", oldValue, newValue);
-        });
     }
 
     @Override

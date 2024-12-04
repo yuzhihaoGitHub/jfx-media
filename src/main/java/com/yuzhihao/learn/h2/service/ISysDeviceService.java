@@ -30,4 +30,17 @@ public interface ISysDeviceService extends IService<SysDevice> {
      */
     PageInfo<SysDevice> lists(int pageIndex, SysDevice device);
 
+    /**
+     * 获取设备信息
+     * @param device
+     * @return
+     */
+    PageInfo<SysDevice> lists(int pageIndex,int pageSize, SysDevice device);
+
+    /**
+     * 获取设备信息
+     * @param device
+     * @return
+     */
+    PageInfo<SysDevice> listsOr(int pageIndex,int pageSize, SysDevice device);
 }

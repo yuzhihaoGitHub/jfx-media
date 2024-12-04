@@ -73,6 +73,11 @@
             <version>2.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-javafx</artifactId>
+            <version>11.0</version>
+        </dependency>
         <!-- JavaFX Dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>

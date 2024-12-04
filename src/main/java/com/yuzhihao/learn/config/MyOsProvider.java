@@ -2,6 +2,8 @@ package com.yuzhihao.learn.config;
 
 import com.yuzhihao.learn.VlcjApplication;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
 
@@ -40,7 +42,7 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
             return new String[]{tempFile.temParentPath};
         }
         try {
-            String path = VlcjApplication.context.getResource("/vlc/macos/lib").getFile().getAbsolutePath();
+            String path = Objects.requireNonNull(getClass().getResource("/vlc/macos/lib")).getPath();
             log.info("通过 springboot resources 目录读取 VLC LIB：{}", path);
             return new String[]{path};
         } catch (Exception e) {

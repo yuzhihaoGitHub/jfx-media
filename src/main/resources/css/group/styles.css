@@ -1,0 +1,35 @@
+/* styles.css */
+
+/* 自定义滚动条样式 */
+.scroll-bar:vertical {
+    -fx-background-radius: 6;
+    -fx-pref-width: 12; /* 设置垂直滚动条的宽度 */
+    -fx-background-color: #f0f0f0; /* 滚动条背景颜色 */
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #409EFF; /* 滚动条滑块颜色 */
+    -fx-background-radius: 6; /* 滚动条滑块圆角 */
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent; /* 滚动条轨道颜色 */
+}
+
+/* 自定义水平滚动条样式 */
+.scroll-bar:horizontal {
+    -fx-background-radius: 6;
+    -fx-pref-height: 12; /* 设置水平滚动条的高度 */
+    -fx-background-color: #f0f0f0; /* 滚动条背景颜色 */
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #409EFF; /* 滚动条滑块颜色 */
+    -fx-background-radius: 6; /* 滚动条滑块圆角 */
+}
+
+.scroll-bar:horizontal .track {
+    -fx-background-radius: 6;
+    -fx-background-color: transparent; /* 滚动条轨道颜色 */
+}
+

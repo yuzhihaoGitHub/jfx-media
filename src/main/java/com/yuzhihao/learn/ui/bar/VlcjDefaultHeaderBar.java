@@ -5,12 +5,17 @@ import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.Dialog;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.yuzhihao.learn.ui.ApplicationLayer;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -46,6 +51,29 @@ public class VlcjDefaultHeaderBar {
                     System.out.println("menu");
                 }),
                 MaterialDesignIcon.FAVORITE.button(e -> {
+
+
+//                    Platform.runLater(()->{
+//
+//                        Stage newStage = new Stage();
+//                        newStage.setTitle("新页面");
+//                        // 设置为模态窗口
+//                        newStage.initModality(Modality.APPLICATION_MODAL);
+//
+//                        // 创建新页面的内容
+//                        StackPane newRoot = new StackPane();
+//                        Button closeButton = new Button("关闭");
+//                        closeButton.setOnAction(event -> {
+//                            newStage.close();
+//
+//                            AppManager.getInstance().switchToPreviousView();
+//                        }); // 关闭新窗口
+//                        newRoot.getChildren().add(closeButton);
+//
+//                        newStage.setScene(new Scene(newRoot, 600, 400));
+//                        newStage.show();
+//                    });
+
                     System.out.println("fav");
                 })
         );

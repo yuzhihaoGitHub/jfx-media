@@ -56,6 +56,11 @@ public class SysDevice extends Model<SysDevice> implements Serializable{
     private String name;
 
     /**
+     * 媒体类型：比如 摄像头，文件，网络URL等
+     */
+    private String mediaType;
+
+    /**
      * 设备厂商如：海康，大华等
      */
     private String manufacturer;
@@ -202,6 +207,13 @@ public class SysDevice extends Model<SysDevice> implements Serializable{
         return selected;
     }
 
+    public SysDevice() {
+    }
+
+    public SysDevice(String customName, String ip) {
+        this.customName = customName;
+        this.ip = ip;
+    }
 
     @Override
     public String toString() {

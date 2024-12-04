@@ -2,12 +2,12 @@ package com.yuzhihao.learn.ui.view.media;
 
 import com.gluonhq.charm.glisten.control.LifecycleEvent;
 import com.gluonhq.charm.glisten.mvc.View;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.TilePane;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -23,14 +23,16 @@ public class MediaViewGroup extends View {
     //    private final List<MediaView> views;
     private List<MediaView> views;
     private int sqrt;
-    private boolean change = false;
 
     public MediaViewGroup(List<String> urls) {
         this.views = urls.stream().map(MediaView::new).toList();
         this.sqrt = (int) Math.ceil(Math.sqrt(views.size()));
-        this.addEventHandler(LifecycleEvent.HIDDEN, event -> {
+
+        this.addEventHandler(MediaView.MediaEvent.CLOSE, event -> {
             this.stop();
         });
+
+
         setCenter(show1());
     }
 

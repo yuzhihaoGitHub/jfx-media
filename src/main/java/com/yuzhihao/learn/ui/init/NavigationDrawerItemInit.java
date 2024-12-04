@@ -43,9 +43,9 @@ public class NavigationDrawerItemInit {
         drawer.setHeader(header);
 
         drawer.getItems().add(getItem("/images/icons/menu/sy.png", "首页", ApplicationView.INDEX_VIEW));
-        drawer.getItems().add(getItem("/images/icons/menu/sxtlb.png", "摄像头列表", ApplicationView.CAMERA_LIST));
-        drawer.getItems().add(getItem("/images/icons/menu/lpzlb.png", "流URL配置列表", ApplicationView.STREAM_CONFIG_LIST));
-        drawer.getItems().addAll( getItem("/images/icons/menu/dblb1.png", "多播列表", ApplicationView.PLAY_GROUPS));
+        drawer.getItems().add(getItem("/images/icons/menu/sxtlb.png", "媒体列表", ApplicationView.CAMERA_LIST));
+        drawer.getItems().add(getItem("/images/icons/menu/lpzlb.png", "配置列表", ApplicationView.STREAM_CONFIG_LIST));
+        drawer.getItems().addAll( getItem("/images/icons/menu/dblb1.png", "播放列表", ApplicationView.PLAY_GROUPS));
 
     }
 

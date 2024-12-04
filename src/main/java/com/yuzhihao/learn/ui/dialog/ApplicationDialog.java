@@ -20,7 +20,7 @@ public class ApplicationDialog {
     public static void showDialog(String titile, String text) {
         Platform.runLater(() -> {
             Dialog<?> dialog = new Dialog<>();
-            ImageView gluonLogo = new ImageView(new Image(Objects.requireNonNull(ApplicationDialog.class.getResource("/images/icon.png")).toExternalForm()));
+            ImageView gluonLogo = new ImageView(new Image(Objects.requireNonNull(ApplicationDialog.class.getResource("/images/openduke.png")).toExternalForm()));
             gluonLogo.setSmooth(true);
 
             Label title = new Label(titile);
