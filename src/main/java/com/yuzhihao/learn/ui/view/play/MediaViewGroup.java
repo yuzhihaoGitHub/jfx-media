@@ -1,9 +1,6 @@
-package com.yuzhihao.learn.ui.view.media;
+package com.yuzhihao.learn.ui.view.play;
 
-import com.gluonhq.charm.glisten.control.LifecycleEvent;
 import com.gluonhq.charm.glisten.mvc.View;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,14 +18,14 @@ import java.util.List;
 public class MediaViewGroup extends View {
 
     //    private final List<MediaView> views;
-    private List<MediaView> views;
+    private List<PlayerView> views;
     private int sqrt;
 
     public MediaViewGroup(List<String> urls) {
-        this.views = urls.stream().map(MediaView::new).toList();
+        this.views = urls.stream().map(e->new PlayerView()).toList();
         this.sqrt = (int) Math.ceil(Math.sqrt(views.size()));
 
-        this.addEventHandler(MediaView.MediaEvent.CLOSE, event -> {
+        this.addEventHandler(PlayerView.MediaEvent.CLOSE, event -> {
             this.stop();
         });
 
@@ -129,7 +126,7 @@ public class MediaViewGroup extends View {
 
 
     public final void stop() {
-        views.forEach(MediaView::stop);
+
     }
 
     public static void main(String[] args) {

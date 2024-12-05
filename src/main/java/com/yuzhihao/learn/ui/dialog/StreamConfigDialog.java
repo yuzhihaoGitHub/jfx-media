@@ -37,22 +37,28 @@ public class StreamConfigDialog {
 
     private final Dialog<ButtonType> dialog = new Dialog<>();
     private final TextField nameField = new TextField();
-    private final TextField urlField = new TextField();
+    private final com.gluonhq.charm.glisten.control.TextArea urlField = new com.gluonhq.charm.glisten.control.TextArea();
 
     public StreamConfigDialog() {
         this(false);
     }
 
     public StreamConfigDialog(boolean isUpdate) {
-        this.isUpdate = isUpdate;
-        this.dict = new SysDict();
+        this(isUpdate,new SysDict());
     }
 
     public StreamConfigDialog(SysDict dict) {
-        this.isUpdate = true;
+        this(true,dict);
+    }
+
+    public StreamConfigDialog(boolean isUpdate,SysDict dict) {
+        this.isUpdate = isUpdate;
         this.nameField.setText(dict.getDictLabel());
         this.urlField.setText(dict.getRemark());
         this.dict = dict;
+
+        nameField.setPromptText("请输入名称");
+        urlField.setPromptText("请输入规则字符串");
     }
 
     public Optional<ButtonType> show() {
@@ -152,6 +158,10 @@ public class StreamConfigDialog {
 
         Label nameLabel = UiUtil.label("名称", MaterialDesignIcon.STARS.graphic());
         Label urlLabel = UiUtil.label("规则字符串", MaterialDesignIcon.STARS.graphic());
+        nameLabel.setMaxWidth(100);
+        nameLabel.setMinWidth(100);
+        urlLabel.setMaxWidth(100);
+        urlLabel.setMinWidth(100);
 
         gp.add(nameLabel, 0, 0);
         gp.add(nameField, 1, 0);

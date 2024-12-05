@@ -11,3 +11,6 @@
     -fx-padding: 0 0 0 0; /* 上, 右, 下, 左 */
 }
 
+.dialog {
+    -fx-pref-width: 600px;
+}

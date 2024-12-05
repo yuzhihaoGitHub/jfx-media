@@ -20,11 +20,12 @@
 package com.yuzhihao.learn.ui.view.play;
 
 import com.yuzhihao.learn.config.ThreadPoolEnum;
-import com.yuzhihao.learn.ui.view.media.MediaView;
 import com.yuzhihao.learn.ui.view.play.controls.PlayerControls;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -125,7 +126,7 @@ final public class PlayerView extends Pane {
 
         registerMediaPlayerEvents();
 
-        this.addEventHandler(MediaView.MediaEvent.CLOSE, event -> {
+        this.addEventHandler(PlayerView.MediaEvent.CLOSE, event -> {
             this.mediaPlayer.controls().stop();
         });
     }
@@ -280,5 +281,14 @@ final public class PlayerView extends Pane {
 
     private void handleSetPlaybackPosition(float position) {
         mediaPlayer.controls().setPosition(position);
+    }
+
+    public static class MediaEvent extends Event {
+
+        public static final EventType<MediaEvent> CLOSE = new EventType<>(Event.ANY, "CLOSE");
+
+        public MediaEvent(EventType<? extends Event> eventType) {
+            super(eventType);
+        }
     }
 }

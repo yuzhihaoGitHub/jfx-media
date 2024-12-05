@@ -12,7 +12,6 @@ import com.yuzhihao.learn.h2.common.SysDictConstant;
 import com.yuzhihao.learn.h2.entity.SysDevice;
 import com.yuzhihao.learn.h2.service.ISysDeviceService;
 import com.yuzhihao.learn.ui.bar.VlcjDefaultHeaderBar;
-import com.yuzhihao.learn.ui.view.media.MediaView;
 import com.yuzhihao.learn.ui.view.play.PlayerView;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -307,7 +306,7 @@ public class PlayGroupsView extends View {
     private void closeEvent() {
         Node center = getCenter();
         if (Objects.nonNull(center)) {
-            center.fireEvent(new MediaView.MediaEvent(MediaView.MediaEvent.CLOSE));
+            center.fireEvent(new PlayerView.MediaEvent(PlayerView.MediaEvent.CLOSE));
         }
     }
 
