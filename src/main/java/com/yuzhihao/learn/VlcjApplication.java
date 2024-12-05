@@ -1,28 +1,24 @@
 package com.yuzhihao.learn;
 
 import com.gluonhq.attach.display.DisplayService;
+import com.gluonhq.attach.display.impl.DummyDisplayService;
 import com.gluonhq.attach.util.Platform;
+import com.gluonhq.attach.util.Services;
+import com.gluonhq.attach.util.impl.DefaultServiceFactory;
+import com.gluonhq.attach.util.impl.ServiceFactory;
 import com.gluonhq.charm.glisten.application.AppManager;
-import com.gluonhq.charm.glisten.layout.layer.PopupView;
 import com.gluonhq.charm.glisten.visual.Swatch;
+import com.yuzhihao.learn.config.ServicesRegister;
 import com.yuzhihao.learn.config.ThreadPoolEnum;
 import com.yuzhihao.learn.javassist.AppManagerJavassist;
-import com.yuzhihao.learn.ui.ApplicationLayer;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.init.NavigationDrawerItemInit;
 import com.yuzhihao.learn.ui.view.*;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -65,6 +62,8 @@ public class VlcjApplication extends Application {
 
     @Override
     public void init() {
+        ServicesRegister.registerServices();
+
         AppManagerJavassist.javassist();
 
         ThreadPoolEnum.数据处理线程池.execute(()->{
@@ -74,9 +73,9 @@ public class VlcjApplication extends Application {
 
         appManager = AppManager.initialize(this::postInit);
 
+        appManager.addViewFactory(AppManager.SPLASH_VIEW, MediaSplashView::new);
         appManager.addViewFactory(ApplicationView.HOME_VIEW, IndexView::new);
         appManager.addViewFactory(ApplicationView.INDEX_VIEW, IndexView::new);
-        appManager.addViewFactory(AppManager.SPLASH_VIEW, MediaSplashView::new);
         appManager.addViewFactory(ApplicationView.CAMERA_LIST, CameraListView::new);
         appManager.addViewFactory(ApplicationView.PLAY_GROUPS, PlayGroupsView::new);
         appManager.addViewFactory(ApplicationView.STREAM_CONFIG_LIST, StreamConfigListView::new);
@@ -94,6 +93,7 @@ public class VlcjApplication extends Application {
     @Override
     public void stop() {
         context.close();
+        log.info("应用关闭！");
     }
 
 }

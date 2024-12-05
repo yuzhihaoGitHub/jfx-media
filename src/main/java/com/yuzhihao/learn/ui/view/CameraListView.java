@@ -18,10 +18,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -48,32 +51,39 @@ public class CameraListView extends View {
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         tableView.setPrefHeight(900);
 
-        TableColumn<SysDevice, String> idc = new TableColumn<>("ID");
+//        TableColumn<SysDevice, String> idc = new TableColumn<>("ID");
         TableColumn<SysDevice, String> namec = new TableColumn<>("名称");
+        TableColumn<SysDevice, String> proxyc = new TableColumn<>("播放代理地址");
         TableColumn<SysDevice, String> companyc = new TableColumn<>("厂商");
-        TableColumn<SysDevice, String> sipc = new TableColumn<>("SIP协议");
-        TableColumn<SysDevice, String> networkc = new TableColumn<>("网络状态");
+        TableColumn<SysDevice, String> typec = new TableColumn<>("类型");
+//        TableColumn<SysDevice, String> sipc = new TableColumn<>("SIP协议");
+//        TableColumn<SysDevice, String> networkc = new TableColumn<>("网络状态");
         TableColumn<SysDevice, String> statusc = new TableColumn<>("上报状态");
         TableColumn<SysDevice, String> ipc = new TableColumn<>("IP");
-        TableColumn<SysDevice, String> proxyc = new TableColumn<>("播放代理地址");
         TableColumn<SysDevice, LocalDateTime> registerc = new TableColumn<>("注册时间");
         TableColumn<SysDevice, LocalDateTime> heartc = new TableColumn<>("心跳时间");
         TableColumn<SysDevice, LocalDateTime> createtc = new TableColumn<>("创建时间");
         TableColumn<SysDevice, LocalDateTime> updatetc = new TableColumn<>("更新时间");
-        idc.setCellValueFactory(new PropertyValueFactory<>("deviceId"));
+//        idc.setCellValueFactory(new PropertyValueFactory<>("deviceId"));
         namec.setCellValueFactory(new PropertyValueFactory<>("customName"));
         companyc.setCellValueFactory(new PropertyValueFactory<>("company"));
-        sipc.setCellValueFactory(new PropertyValueFactory<>("transport"));
-        networkc.setCellValueFactory(new PropertyValueFactory<>("onLine"));
+        typec.setCellValueFactory(new PropertyValueFactory<>("mediaType"));
+        typec.setCellFactory((e)->new TableCellMediaType());
+//        sipc.setCellValueFactory(new PropertyValueFactory<>("transport"));
+//        networkc.setCellValueFactory(new PropertyValueFactory<>("onLine"));
         statusc.setCellValueFactory(new PropertyValueFactory<>("onLogOut"));
         ipc.setCellValueFactory(new PropertyValueFactory<>("ip"));
         proxyc.setCellValueFactory(new PropertyValueFactory<>("proxyUrl"));
         registerc.setCellValueFactory(new PropertyValueFactory<>("registerTime"));
+        registerc.setCellFactory(e-> new TableCellTime());
         heartc.setCellValueFactory(new PropertyValueFactory<>("keepaliveTime"));
+        heartc.setCellFactory(e-> new TableCellTime());
         updatetc.setCellValueFactory(new PropertyValueFactory<>("updateTime"));
+        updatetc.setCellFactory(e-> new TableCellTime());
         createtc.setCellValueFactory(new PropertyValueFactory<>("createTime"));
+        createtc.setCellFactory(e-> new TableCellTime());
         insertTableCheckBoxColumn();
-        tableView.getColumns().addAll(idc,namec,companyc,sipc,networkc,statusc,ipc,proxyc,registerc,heartc,updatetc,createtc);
+        tableView.getColumns().addAll(namec,typec,companyc,statusc,ipc,proxyc,registerc,heartc,updatetc,createtc);
     }
 
     @Override
@@ -274,4 +284,50 @@ public class CameraListView extends View {
         }
     }
 
+    /**
+     * 自定义 Cell
+     */
+    private static class TableCellMediaType extends TableCell<SysDevice,String> {
+
+        private final Image fileIcon = new Image("/images/icons/group/file.png");
+        private final Image mediaIcon = new Image("/images/icons/group/media.png");
+        private final Image networkIcon = new Image("/images/icons/group/network.png");
+
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+                setGraphic(null);
+            } else {
+                ImageView icon = new ImageView(mediaIcon);
+                if("文件".equals(item)){
+                    icon = new ImageView(fileIcon);
+                }if("网络URL".equals(item)){
+                    icon = new ImageView(networkIcon);
+                }
+                icon.setFitWidth(20); // 设置图标宽度
+                icon.setFitHeight(20); // 设置图标高度
+                setGraphic(icon);
+                setStyle("-fx-padding: 10 20 10 10;"); // 设置 ListCell 的内边距
+            }
+        }
+    }
+
+    /**
+     * 自定义 Cell
+     */
+    private static class TableCellTime extends TableCell<SysDevice,LocalDateTime> {
+
+        @Override
+        protected void updateItem(LocalDateTime item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+                setText(null);
+            } else {
+                String format = item.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                setText(format);;
+                setStyle("-fx-padding: 10 20 10 10;"); // 设置 ListCell 的内边距
+            }
+        }
+    }
 }

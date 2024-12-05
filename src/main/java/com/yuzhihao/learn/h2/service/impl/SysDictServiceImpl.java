@@ -1,6 +1,5 @@
 package com.yuzhihao.learn.h2.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuzhihao.learn.h2.entity.SysDevice;
@@ -33,6 +32,12 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public List<Pair<String, String>> manufacturer() {
         List<SysDict> list = list(Wrappers.lambdaQuery(SysDict.class).eq(SysDict::getDictType, "sys_manufacturer"));
+        return list.stream().map(e -> new Pair<>(e.getDictLabel(), e.getDictValue())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Pair<String, String>> mediaType() {
+        List<SysDict> list = list(Wrappers.lambdaQuery(SysDict.class).eq(SysDict::getDictType, "sys_media_type"));
         return list.stream().map(e -> new Pair<>(e.getDictLabel(), e.getDictValue())).collect(Collectors.toList());
     }
 

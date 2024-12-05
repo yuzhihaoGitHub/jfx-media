@@ -24,6 +24,13 @@ public interface ISysDictService extends IService<SysDict> {
     List<Pair<String, String>> manufacturer();
 
     /**
+     * 获取厂商 k v
+     *
+     * @return
+     */
+    List<Pair<String, String>> mediaType();
+
+    /**
      * 获取
      *
      * @return

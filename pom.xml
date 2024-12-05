@@ -142,6 +142,7 @@
             <version>${attach.version}</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
@@ -158,6 +159,12 @@
         </repository>
     </repositories>
 
+    <!-- plugin -->
+    <configuration>
+        <attachList>
+            <list>display</list>
+        </attachList>
+    </configuration>
 
     <build>
         <plugins>

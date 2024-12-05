@@ -4,7 +4,7 @@ CREATE TABLE sys_device
     id               BIGINT      NOT NULL AUTO_INCREMENT, -- ID
     device_id        VARCHAR(64) NOT NULL,                -- 设备唯一ID
     custom_name      VARCHAR(255)    DEFAULT NULL,        -- 自定义设备名称
-    media_type       VARCHAR(255)    DEFAULT NULL,        -- 媒体类型：比如 摄像头，文件，网络URL等。
+    media_type       VARCHAR(255)    DEFAULT '摄像头',    -- 媒体类型：比如 摄像头，文件，网络URL等。
     name             VARCHAR(128)    DEFAULT NULL,        -- 设备名称
     company          VARCHAR(128)    DEFAULT NULL,        -- 选择设备厂商
     manufacturer     VARCHAR(128)    DEFAULT NULL,        -- 设备厂商

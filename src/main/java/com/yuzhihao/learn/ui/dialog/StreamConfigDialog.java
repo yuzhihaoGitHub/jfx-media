@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.util.StringUtils;
 
@@ -105,11 +106,11 @@ public class StreamConfigDialog {
         );
 
         if (!StringUtils.hasLength(this.nameField.getText())) {
-            new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.WARNING, "请输入流配置名称！").showAndWait();
+            new Toast("请输入流配置名称！").show();
             return;
         }
         if (!StringUtils.hasLength(this.urlField.getText())) {
-            new com.gluonhq.charm.glisten.control.Alert(Alert.AlertType.WARNING, "请输入流配置URL！").showAndWait();
+            new Toast("请输入流配置URL！").show();
             return;
         }
 

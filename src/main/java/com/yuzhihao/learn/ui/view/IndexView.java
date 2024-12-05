@@ -1,6 +1,5 @@
 package com.yuzhihao.learn.ui.view;
 
-import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
@@ -31,7 +30,7 @@ public class IndexView extends View {
 
         fab.showOn(this);
         fab.setOnAction(event -> {
-            new SysDeviceDialog(false).show().ifPresent(type-> {
+            new SysDeviceDialog().show().ifPresent(type-> {
                 if(type.equals(ButtonType.OK)) {
                     getAppManager().switchView(ApplicationView.CAMERA_LIST);
                 }
