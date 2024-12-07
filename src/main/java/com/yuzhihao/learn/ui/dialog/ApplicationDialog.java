@@ -1,6 +1,7 @@
 package com.yuzhihao.learn.ui.dialog;
 
 import com.gluonhq.charm.glisten.control.Dialog;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -20,7 +21,7 @@ public class ApplicationDialog {
     public static void showDialog(String titile, String text) {
         Platform.runLater(() -> {
             Dialog<?> dialog = new Dialog<>();
-            ImageView gluonLogo = new ImageView(new Image(Objects.requireNonNull(ApplicationDialog.class.getResource("/images/openduke.png")).toExternalForm()));
+            ImageView gluonLogo = new ImageView(ImagesUtil.OPENDUKE_ICON);
             gluonLogo.setSmooth(true);
 
             Label title = new Label(titile);

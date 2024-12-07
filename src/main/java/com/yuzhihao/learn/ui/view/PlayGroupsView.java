@@ -12,6 +12,7 @@ import com.yuzhihao.learn.h2.common.SysDictConstant;
 import com.yuzhihao.learn.h2.entity.SysDevice;
 import com.yuzhihao.learn.h2.service.ISysDeviceService;
 import com.yuzhihao.learn.ui.bar.VlcjDefaultHeaderBar;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.view.play.PlayerView;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -41,14 +42,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Log4j2
 public class PlayGroupsView extends View {
 
-    private final ImageView rightIcon = new ImageView(new Image("/images/icons/right.png")); // 替换为你的图标路径
-    private final ImageView leftIcon = new ImageView(new Image("/images/icons/left.png")); // 替换为你的图标路径
-    private final Image fileIcon = new Image("/images/icons/group/file.png");
-    private final Image mediaIcon = new Image("/images/icons/group/media.png");
-    private final Image networkIcon = new Image("/images/icons/group/network.png");
-    private final ImageView searchIcon = new ImageView(new Image("/images/icons/group/search.png"));
-    private final ImageView notdataIcon = new ImageView(new Image("/images/icons/notdata.png"));
-    private final ImageView opendukeIcon = new ImageView(new Image("/images/openduke.png"));
+    private final ImageView rightIcon = new ImageView(ImagesUtil.RIGHT_ICON); // 替换为你的图标路径
+    private final ImageView leftIcon = new ImageView(ImagesUtil.LEFT_ICON); // 替换为你的图标路径
+    private final ImageView searchIcon = new ImageView(ImagesUtil.SEARCH_ICON);
+    private final ImageView notdataIcon = new ImageView(ImagesUtil.NOTDATA_ICON);
+    private final ImageView opendukeIcon = new ImageView(ImagesUtil.OPENDUKE_ICON);
 
     private int index = 1;
     private long total = 0;
@@ -82,7 +80,6 @@ public class PlayGroupsView extends View {
         //针对在播放视频时箭头ICON是否显示
         setOnMouseEntered(event -> {
             if(!getLeft().isVisible()){
-                System.out.println("da");
                 rightIcon.setVisible(true);
                 ThreadPoolEnum.定时任务处理线程池.schedule(() -> Platform.runLater(() -> {
                     rightIcon.setVisible(false);
@@ -139,9 +136,8 @@ public class PlayGroupsView extends View {
             AppManager.getInstance().getGlassPane().getChildren().remove(pane);
         });
 
-        getLeft().setOnMouseEntered(event ->{System.out.println("xa");showIcon();} );
+        getLeft().setOnMouseEntered(event -> showIcon());
 
-        log.info("PlayGroupsView updateAppBar");
     }
 
     private void initSearchField() {
@@ -202,7 +198,6 @@ public class PlayGroupsView extends View {
         // 监听菜单选择变化
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                log.info("You selected: " + newValue);
                 if (StringUtils.hasLength(newValue.device.getProxyUrl())) {
                     url = newValue.device.getProxyUrl();
                     center();
@@ -338,9 +333,9 @@ public class PlayGroupsView extends View {
 
     private DeviceItem item(SysDevice device) {
         return switch (device.getMediaType()) {
-            case SysDictConstant.File -> new DeviceItem(device, new ImageView(fileIcon));
-            case SysDictConstant.WEB_URL -> new DeviceItem(device, new ImageView(networkIcon));
-            default -> new DeviceItem(device, new ImageView(mediaIcon));
+            case SysDictConstant.File -> new DeviceItem(device, new ImageView(ImagesUtil.FILE_ICON));
+            case SysDictConstant.WEB_URL -> new DeviceItem(device, new ImageView(ImagesUtil.NETWORK_ICON));
+            default -> new DeviceItem(device, new ImageView(ImagesUtil.MEDIA_ICON));
         };
     }
 

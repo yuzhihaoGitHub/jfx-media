@@ -8,6 +8,7 @@ import com.yuzhihao.learn.config.SpringUtils;
 import com.yuzhihao.learn.h2.entity.SysDevice;
 import com.yuzhihao.learn.h2.entity.SysDict;
 import com.yuzhihao.learn.h2.service.ISysDictService;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.util.UiUtil;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -35,7 +36,6 @@ import java.util.UUID;
 @Log4j2
 public class SysDeviceDialog {
 
-    private final Image cameraIcon = new Image("/images/icons/camera.png");
     private final boolean isUpdate;
 
     private final SysDevice sysDevice;
@@ -233,7 +233,7 @@ public class SysDeviceDialog {
     public Optional<ButtonType> showp() {
         dialog.setAutoHide(false);
 
-        ImageView gluonLogo = new ImageView(cameraIcon);
+        ImageView gluonLogo = new ImageView(ImagesUtil.CAMERA_ICON);
         gluonLogo.setSmooth(true);
 
         Label title = new Label(isUpdate ? "修改设备信息" : "添加设备");

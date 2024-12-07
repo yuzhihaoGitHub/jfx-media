@@ -19,7 +19,10 @@
 
 package com.yuzhihao.learn.ui.view.play;
 
+import com.gluonhq.charm.glisten.control.LifecycleEvent;
+import com.gluonhq.charm.glisten.control.ProgressIndicator;
 import com.yuzhihao.learn.config.ThreadPoolEnum;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.view.play.controls.PlayerControls;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -28,13 +31,18 @@ import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.CacheHint;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import lombok.extern.log4j.Log4j2;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.javafx.videosurface.ImageViewVideoSurface;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
@@ -48,9 +56,14 @@ import java.util.concurrent.TimeUnit;
  *
  * @author 开源工作者
  */
+@Log4j2
 final public class PlayerView extends Pane {
 
-    private final static MediaPlayerFactory MEDIA_PLAYER_FACTORY = new MediaPlayerFactory();
+
+
+    private  final VBox load = new VBox();
+
+    public final static MediaPlayerFactory MEDIA_PLAYER_FACTORY = new MediaPlayerFactory();
 
     private static final int CONTROLS_PANE_BOTTOM_OFFSET = 32;
 
@@ -78,6 +91,7 @@ final public class PlayerView extends Pane {
     private boolean staying = false;
 
     public PlayerView() {
+
         // Not sure if this helps or not
         setCache(true);
         setCacheHint(CacheHint.SPEED);
@@ -122,20 +136,56 @@ final public class PlayerView extends Pane {
 
         videoImageView.imageProperty().addListener(this::handleImageChanged);
 
-        getChildren().addAll(this.videoImageView, playerControls);
+        setLoadBackground();
+
+        getChildren().addAll(this.videoImageView, playerControls,load);
 
         registerMediaPlayerEvents();
 
-        this.addEventHandler(PlayerView.MediaEvent.CLOSE, event -> {
+        addEventHandler(PlayerView.MediaEvent.CLOSE, event -> {
+            log.info("关闭播放器:{}",this.mediaPlayer.media().info().mrl());
             this.mediaPlayer.controls().stop();
         });
+
+        addEventHandler(LifecycleEvent.HIDDEN, event -> {
+            log.info("关闭播放器LifecycleEvent:{}",this.mediaPlayer.media().info().mrl());
+            this.mediaPlayer.controls().stop();
+        });
+
+    }
+
+    /**
+     * 设置加载背景
+     */
+    private void setLoadBackground(){
+        ImageView backgroundImage = new ImageView(ImagesUtil.GIF_PLAYER);
+        backgroundImage.setPreserveRatio(true);
+
+//        backgroundImage.translateYProperty().bind(heightProperty().divide(4));
+//        backgroundImage.translateXProperty().bind(widthProperty().divide(3));
+
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setProgress(-1.0f); // 设置为 indeterminate 模式
+
+        Label label = new Label("正在加载视频...");
+        label.prefWidth(100);
+        label.setMinWidth(100);
+        HBox hBox = new HBox(progressIndicator, label);
+        HBox.setMargin(label,new Insets(8,0,0,8));
+        load.getChildren().addAll(backgroundImage,hBox);
+        load.translateYProperty().bind(heightProperty().divide(5));
+        load.translateXProperty().bind(widthProperty().divide(3));
     }
 
     private void registerMediaPlayerEvents() {
         mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+
             @Override
             public void playing(MediaPlayer mediaPlayer) {
-                Platform.runLater(() -> playerControls.setPaused(false));
+                Platform.runLater(() -> {
+                    playerControls.setPaused(false);
+                    PlayerView.this.getChildren().remove(load);
+                });
             }
 
             @Override

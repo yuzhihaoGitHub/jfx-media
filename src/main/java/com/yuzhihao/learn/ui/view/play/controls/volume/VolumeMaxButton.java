@@ -19,13 +19,12 @@
 
 package com.yuzhihao.learn.ui.view.play.controls.volume;
 
-import javafx.scene.image.Image;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 
 final class VolumeMaxButton extends VolumeButton {
 
-    private static final Image IMAGE = getImage("/images/icons/buttons/volume_max_18dp.png");
 
     VolumeMaxButton(Runnable action) {
-        super(action, IMAGE);
+        super(action, ImagesUtil.VOLUME_MAX_18);
     }
 }

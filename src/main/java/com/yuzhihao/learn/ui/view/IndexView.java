@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.mvc.View;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.bar.VlcjDefaultHeaderBar;
 import com.yuzhihao.learn.ui.dialog.SysDeviceDialog;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -45,7 +46,7 @@ public class IndexView extends View {
     }
 
     private VBox center(){
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/openduke.png"))));
+        ImageView imageView = new ImageView(ImagesUtil.OPENDUKE_ICON);
 
         imageView.setFitHeight(200);
         imageView.setPreserveRatio(true);

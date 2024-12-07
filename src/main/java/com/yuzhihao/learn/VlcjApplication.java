@@ -7,6 +7,7 @@ import com.gluonhq.attach.util.Services;
 import com.gluonhq.attach.util.impl.DefaultServiceFactory;
 import com.gluonhq.attach.util.impl.ServiceFactory;
 import com.gluonhq.charm.glisten.application.AppManager;
+import com.gluonhq.charm.glisten.control.LifecycleEvent;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import com.yuzhihao.learn.config.ServicesRegister;
 import com.yuzhihao.learn.config.ThreadPoolEnum;
@@ -14,6 +15,7 @@ import com.yuzhihao.learn.javassist.AppManagerJavassist;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.init.NavigationDrawerItemInit;
 import com.yuzhihao.learn.ui.view.*;
+import com.yuzhihao.learn.ui.view.play.PlayerView;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -79,6 +81,7 @@ public class VlcjApplication extends Application {
         appManager.addViewFactory(ApplicationView.CAMERA_LIST, CameraListView::new);
         appManager.addViewFactory(ApplicationView.PLAY_GROUPS, PlayGroupsView::new);
         appManager.addViewFactory(ApplicationView.STREAM_CONFIG_LIST, StreamConfigListView::new);
+        appManager.addViewFactory(ApplicationView.MEDIA_PLAYER_VIEW, MediaPlayerView::new);
 
         NavigationDrawerItemInit.init();
 
@@ -92,8 +95,11 @@ public class VlcjApplication extends Application {
 
     @Override
     public void stop() {
+        AppManager.getInstance().getView().fireEvent(new LifecycleEvent(null,LifecycleEvent.HIDDEN));
+        PlayerView.MEDIA_PLAYER_FACTORY.release();
         context.close();
         log.info("应用关闭！");
+        System.exit(0);
     }
 
 }

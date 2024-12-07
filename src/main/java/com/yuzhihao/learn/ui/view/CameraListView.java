@@ -2,6 +2,7 @@ package com.yuzhihao.learn.ui.view;
 
 import com.baomidou.mybatisplus.extension.activerecord.AbstractModel;
 import com.github.pagehelper.PageInfo;
+import com.gluonhq.charm.glisten.application.AppManager;
 import com.gluonhq.charm.glisten.control.Alert;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.TextField;
@@ -10,8 +11,10 @@ import com.gluonhq.charm.glisten.mvc.View;
 import com.yuzhihao.learn.config.SpringUtils;
 import com.yuzhihao.learn.h2.entity.SysDevice;
 import com.yuzhihao.learn.h2.service.ISysDeviceService;
+import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.bar.VlcjDefaultHeaderBar;
 import com.yuzhihao.learn.ui.dialog.SysDeviceDialog;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.util.UiUtil;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -146,7 +149,13 @@ public class CameraListView extends View {
         Button play = new Button("播放");
 
         play.setOnAction(e->{
-
+            List<SysDevice> collect = this.tableView.getItems().stream().filter(SysDevice::isSelected).toList();
+            if(collect.isEmpty()){
+                new Toast("请选择要播放的媒体").show();
+            }else{
+                MediaPlayerView.updatePlayer(collect.stream().map(SysDevice::getProxyUrl).toList());
+                AppManager.getInstance().switchView(ApplicationView.MEDIA_PLAYER_VIEW);
+            }
         });
 
         return play;
@@ -173,9 +182,9 @@ public class CameraListView extends View {
         delete.setOnAction(e->{
             List<SysDevice> collect = this.tableView.getItems().stream().filter(SysDevice::isSelected).toList();
             if(collect.isEmpty()){
-                new Toast("请选择要删除的设备").show();
+                new Toast("请选择要删除的媒体").show();
             }else{
-                Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION,"确认要删除设备吗？");
+                Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION,"确认要删除媒体吗？");
                 alert.showAndWait().ifPresent(type->{
                     if (ButtonType.OK.equals(type)) {
                         collect.forEach(AbstractModel::deleteById);
@@ -194,7 +203,7 @@ public class CameraListView extends View {
         delete.setOnAction(e->{
             List<SysDevice> collect = this.tableView.getItems().stream().filter(SysDevice::isSelected).toList();
             if(collect.size() != 1){
-                new Toast("请选择要修改的设备,只能选择一个").show();
+                new Toast("请选择要修改的媒体,只能选择一个").show();
             }else{
                 new SysDeviceDialog(collect.get(0)).show().ifPresent(type-> {
                     if(type.equals(ButtonType.OK)) {
@@ -289,21 +298,17 @@ public class CameraListView extends View {
      */
     private static class TableCellMediaType extends TableCell<SysDevice,String> {
 
-        private final Image fileIcon = new Image("/images/icons/group/file.png");
-        private final Image mediaIcon = new Image("/images/icons/group/media.png");
-        private final Image networkIcon = new Image("/images/icons/group/network.png");
-
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
             if (empty || item == null) {
                 setGraphic(null);
             } else {
-                ImageView icon = new ImageView(mediaIcon);
+                ImageView icon = new ImageView(ImagesUtil.MEDIA_ICON);
                 if("文件".equals(item)){
-                    icon = new ImageView(fileIcon);
+                    icon = new ImageView(ImagesUtil.FILE_ICON);
                 }if("网络URL".equals(item)){
-                    icon = new ImageView(networkIcon);
+                    icon = new ImageView(ImagesUtil.NETWORK_ICON);
                 }
                 icon.setFitWidth(20); // 设置图标宽度
                 icon.setFitHeight(20); // 设置图标高度

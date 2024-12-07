@@ -2,17 +2,13 @@ package com.yuzhihao.learn.config;
 
 import com.gluonhq.attach.display.DisplayService;
 import com.gluonhq.attach.display.impl.DummyDisplayService;
-import com.gluonhq.attach.lifecycle.LifecycleEvent;
-import com.gluonhq.attach.lifecycle.LifecycleService;
-import com.gluonhq.attach.lifecycle.impl.DummyLifecycleService;
 import com.gluonhq.attach.util.Services;
 import com.gluonhq.attach.util.impl.ServiceFactory;
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Dimension2D;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * @author yuzhihao

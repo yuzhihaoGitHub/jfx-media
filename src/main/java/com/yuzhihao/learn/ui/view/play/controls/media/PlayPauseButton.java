@@ -19,22 +19,20 @@
 
 package com.yuzhihao.learn.ui.view.play.controls.media;
 
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.view.play.controls.MediaPlayerButton;
 import javafx.scene.image.Image;
 
 final public class PlayPauseButton extends MediaPlayerButton {
 
-    private static final Image PAUSE_IMAGE = getImage("/images/icons/buttons/play_24dp.png");
-
-    private static final Image PLAY_IMAGE = getImage("/images/icons/buttons/pause_24dp.png");
 
     private static final int FIT_SIZE = 48;
 
     public PlayPauseButton(Runnable action) {
-        super(action, PLAY_IMAGE, FIT_SIZE, FIT_SIZE);
+        super(action, ImagesUtil.PLAY_IMAGE, FIT_SIZE, FIT_SIZE);
     }
 
     public void setPaused(boolean paused) {
-        setImage(paused ? PAUSE_IMAGE : PLAY_IMAGE);
+        setImage(paused ? ImagesUtil.PAUSE_IMAGE : ImagesUtil.PLAY_IMAGE);
     }
 }

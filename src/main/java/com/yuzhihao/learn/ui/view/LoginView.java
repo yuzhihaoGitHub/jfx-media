@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.yuzhihao.learn.ui.ApplicationView;
 import com.yuzhihao.learn.ui.dialog.ApplicationDialog;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -37,8 +38,8 @@ public class LoginView extends View {
 
     @Override
     protected void updateAppBar(AppBar appBar) {
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/icon32.png"))));
-
+        ImageView imageView = new ImageView(ImagesUtil.GIF_PLAYER);
+        imageView.setFitHeight(30);
         imageView.setPreserveRatio(true);
 
         appBar.setNavIcon(imageView);
@@ -115,7 +116,7 @@ public class LoginView extends View {
 
         vBox.getChildren().addAll(info,usernamep,passwordp,login,register);
 
-        vBox.setBackground(new Background(new BackgroundImage(new Image("/images/back/bj2.png"),BackgroundRepeat.SPACE,BackgroundRepeat.SPACE,null,null)));
+        vBox.setBackground(new Background(new BackgroundImage(ImagesUtil.BACK_BJ2,BackgroundRepeat.SPACE,BackgroundRepeat.SPACE,null,null)));
 
         return vBox;
     }
@@ -190,7 +191,7 @@ public class LoginView extends View {
 
         vBox.getChildren().addAll(info,iphonep,vcodep,passwordp1,passwordp2,register,login);
 
-        vBox.setBackground(new Background(new BackgroundImage(new Image("/images/back/bj2.png"),BackgroundRepeat.SPACE,BackgroundRepeat.SPACE,null,null)));
+        vBox.setBackground(new Background(new BackgroundImage(ImagesUtil.BACK_BJ2,BackgroundRepeat.SPACE,BackgroundRepeat.SPACE,null,null)));
 
         return vBox;
     }

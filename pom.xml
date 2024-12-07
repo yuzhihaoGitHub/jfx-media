@@ -159,13 +159,6 @@
         </repository>
     </repositories>
 
-    <!-- plugin -->
-    <configuration>
-        <attachList>
-            <list>display</list>
-        </attachList>
-    </configuration>
-
     <build>
         <plugins>
             <plugin>

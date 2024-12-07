@@ -2,6 +2,7 @@ package com.yuzhihao.learn.ui.view;
 
 import com.gluonhq.charm.glisten.control.ProgressBar;
 import com.gluonhq.charm.glisten.mvc.SplashView;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -14,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+
+import java.util.Objects;
 
 /**
  * @author yuzhihao
@@ -33,7 +36,7 @@ public class MediaSplashView extends SplashView {
     }
 
     public Node center() {
-        ImageView imageView = new ImageView(new Image("/images/back/bj2.png"));
+        ImageView imageView = new ImageView(ImagesUtil.BACK_BJ2);
         imageView.setPreserveRatio(false);
 
         // 绑定图片大小到舞台大小
@@ -43,7 +46,7 @@ public class MediaSplashView extends SplashView {
         // 创建根布局
         StackPane root = new StackPane();
 
-        ImageView view = new ImageView(new Image("/images/openduke.png"));
+        ImageView view = new ImageView(ImagesUtil.OPENDUKE_ICON);
         view.setFitHeight(200);
         view.setPreserveRatio(true);
 

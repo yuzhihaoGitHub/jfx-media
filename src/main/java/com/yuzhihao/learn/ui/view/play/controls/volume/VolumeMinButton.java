@@ -19,13 +19,12 @@
 
 package com.yuzhihao.learn.ui.view.play.controls.volume;
 
-import javafx.scene.image.Image;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 
 final class VolumeMinButton extends VolumeButton {
 
-    private static final Image IMAGE = getImage("/images/icons/buttons/volume_min_18dp.png");
 
     VolumeMinButton(Runnable action) {
-        super(action, IMAGE);
+        super(action, ImagesUtil.VOLUME_MIN_18);
     }
 }

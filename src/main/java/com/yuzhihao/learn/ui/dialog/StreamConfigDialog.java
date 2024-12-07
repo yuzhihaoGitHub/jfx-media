@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.yuzhihao.learn.config.SpringUtils;
 import com.yuzhihao.learn.h2.entity.SysDict;
 import com.yuzhihao.learn.h2.service.ISysDictService;
+import com.yuzhihao.learn.ui.util.ImagesUtil;
 import com.yuzhihao.learn.ui.util.UiUtil;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -70,7 +71,7 @@ public class StreamConfigDialog {
 
         dialog.setAutoHide(false);
 
-        ImageView gluonLogo = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/icons/camera.png")).toExternalForm()));
+        ImageView gluonLogo = new ImageView(ImagesUtil.CAMERA_ICON);
         gluonLogo.setSmooth(true);
 
         Label title = new Label(isUpdate ? "修改配置" : "添加配置");

@@ -31,7 +31,7 @@ public class UiUtil {
     }
 
     public static Node view404() {
-        ImageView imageView = new ImageView("/images/404.jpeg");
+        ImageView imageView = new ImageView(ImagesUtil.IMAGE_404);
 
         imageView.setFitHeight(400);
         imageView.setPreserveRatio(true);
