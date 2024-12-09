@@ -187,11 +187,11 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
             tempFile.createTempFile(PLUGINS, "plugins");
         }
         if (RuntimeUtil.isWindows()) {
-            for (int i = 0; i < LIBS.length; i++) {
-                LIBS[i] = "/vlc/window/64/lib/" + WIN_LIBS[i];
+            for (int i = 0; i < WIN_LIBS.length; i++) {
+                WIN_LIBS[i] = "/vlc/window/64/lib/" + WIN_LIBS[i];
             }
-            for (int i = 0; i < PLUGINS.length; i++) {
-                PLUGINS[i] = "/vlc/window/64/lib/plugins/" + PLUGINS[i];
+            for (int i = 0; i < WIN_PLUGINS.length; i++) {
+                WIN_PLUGINS[i] = "/vlc/window/64/lib/plugins/" + WIN_PLUGINS[i];
             }
             tempFile.createTempFile(WIN_LIBS, "lib");
             tempFile.createTempFile(WIN_PLUGINS, "lib/plugins");
