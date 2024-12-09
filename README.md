@@ -30,6 +30,15 @@
 ## IDEA开发
 * 启动项目时请添加JVM参数，根据自己的javafx的jdk包路径来： --module-path=/Users/***/aliyun/newjava/vlcj/javafx-sdk-21.0.5/lib -Dprism.dirtyopts=false -Dprism.forceUploadingPainter=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC  --add-opens java.base/java.lang=ALL-UNNAMED --add-modules javafx.controls,javafx.fxml
 
+## 使用jpackage打包：
+
+### Mac
+jpackage --input /Users/**/aliyun/newjava/vlcj/target --name VLCJ媒体播放器     --main-jar vlcj-0.0.1-SNAPSHOT.jar --type dmg --javaons "--add-opens java.base/java.lang=ALL-UNNAMED -Dis.packaged=true" --icon /Users/*/aliyun/newjava/vlcj/pack/mac.icns
+
+### Windows
+jpackage --input /Users/**/aliyun/newjava/vlcj/target --name VLCJ媒体播放器     --main-jar vlcj-0.0.1-SNAPSHOT.jar --type exe --javaons "--add-opens java.base/java.lang=ALL-UNNAMED -Dis.packaged=true" 
+
+
 ## 开源协议
 Apache Licence 2.0 （[英文原文](http://www.apache.org/licenses/LICENSE-2.0.html)）
 Apache Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，同样鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再发布（作为开源或商业软件）。
