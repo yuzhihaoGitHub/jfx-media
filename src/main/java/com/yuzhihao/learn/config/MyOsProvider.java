@@ -184,7 +184,7 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         }
         if (RuntimeUtil.isWindows()) {
             for (int i = 0; i < LIBS.length; i++) {
-                LIBS[i] = "/vlc/window/lib/" + LIBS[i];
+                LIBS[i] = "/vlc/window/lib/64/" + WIN_LIBS[i];
             }
             tempFile.createTempFile(WIN_LIBS, "lib");
         }

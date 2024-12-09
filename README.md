@@ -28,7 +28,9 @@
 ![img.png](images/demo3.png) 
 
 ## IDEA开发
-* 启动项目时请添加JVM参数，根据自己的javafx的jdk包路径来： --module-path=/Users/***/aliyun/newjava/vlcj/javafx-sdk-21.0.5/lib -Dprism.dirtyopts=false -Dprism.forceUploadingPainter=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC  --add-opens java.base/java.lang=ALL-UNNAMED --add-modules javafx.controls,javafx.fxml
+* 启动项目时请添加JVM参数，根据自己的javafx的jdk包路径来：
+* mac --module-path=/Users/***/aliyun/newjava/vlcj/javafx-sdk-21.0.5/mac/lib -Dprism.dirtyopts=false -Dprism.forceUploadingPainter=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC  --add-opens java.base/java.lang=ALL-UNNAMED --add-modules javafx.controls,javafx.fxml
+* win --module-path=/Users/***/aliyun/newjava/vlcj/javafx-sdk-21.0.5/win/lib -Dprism.dirtyopts=false -Dprism.forceUploadingPainter=true -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC  --add-opens java.base/java.lang=ALL-UNNAMED --add-modules javafx.controls,javafx.fxml
 
 ## 使用jpackage打包：
 
