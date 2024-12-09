@@ -261,9 +261,9 @@ public class IndexView extends View {
         long usedSpace = totalSpace - usableSpace; // 已用空间
 
         // 输出结果
-        log.info("总空间: " + formatSize(totalSpace));
-        log.info("可用空间: " + formatSize(usableSpace));
-        log.info("已用空间: " + formatSize(usedSpace));
+        log.debug("总空间: " + formatSize(totalSpace));
+        log.debug("可用空间: " + formatSize(usableSpace));
+        log.debug("已用空间: " + formatSize(usedSpace));
 
         log.info("耗时：{}",System.currentTimeMillis() - start);
         return new String[]{formatSize(totalSpace),formatSize(usableSpace),formatSize(usedSpace)};

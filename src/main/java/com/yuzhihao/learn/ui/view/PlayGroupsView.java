@@ -20,7 +20,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
@@ -231,15 +230,6 @@ public class PlayGroupsView extends View {
         // 绑定图标的位置
         StackPane root = new StackPane(vBox);
 
-
-        // 监听窗口大小变化
-//        root.widthProperty().addListener((obs, oldVal, newVal) -> {
-//            floatingIcon.layoutXProperty().bind(Bindings.divide((ObservableNumberValue)newVal, 2).subtract(floatingIcon.fitWidthProperty().divide(2)));
-//        });
-
-//        heightProperty().addListener((obs, oldVal, newVal) -> {
-//            floatingIcon.setLayoutY(newVal.doubleValue()/3);
-//        });
 
         setLeft(root);
     }

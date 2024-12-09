@@ -37,4 +37,7 @@ INSERT INTO `sys_dict` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `
 INSERT INTO `sys_dict` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ( 2, '文件', '文件', 'sys_media_type', '', '', 'N', '0', 'admin', '2024-11-19 15:43:45', 'admin', '2024-11-19 15:43:45', '媒体播放类型');
 INSERT INTO `sys_dict` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ( 3, '网络URL', '网络URL', 'sys_media_type', '', '', 'N', '0', 'admin', '2024-11-19 15:43:45', 'admin', '2024-11-19 15:43:45', '媒体播放类型');
 
+INSERT INTO `sys_device` ( `device_id`, `custom_name`, `name`, `proxy_url`,  `create_by`, `create_time`, `update_by`, `update_time`) VALUES ( '99999999999999999999', '动画片', '动画片', 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'admin','2024-11-19 15:43:45', 'admin', '2024-11-19 15:43:45');
+
+
 
