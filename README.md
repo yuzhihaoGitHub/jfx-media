@@ -38,8 +38,9 @@
 jpackage --input /Users/**/aliyun/newjava/vlcj/target --name VLCJ媒体播放器     --main-jar vlcj-0.0.1-SNAPSHOT.jar --type dmg --javaons "--add-opens java.base/java.lang=ALL-UNNAMED -Dis.packaged=true" --icon /Users/*/aliyun/newjava/vlcj/pack/mac.icns
 
 ### Windows
-jpackage --input /Users/**/aliyun/newjava/vlcj/target --name VLCJ媒体播放器     --main-jar vlcj-0.0.1-SNAPSHOT.jar --type exe --javaons "--add-opens java.base/java.lang=ALL-UNNAMED -Dis.packaged=true" 
-
+* 记得下载安装WIX.exe，git地址：https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm
+* 安装wix311需要.net 3.5.1环境， 打开“控制面板”，点击“程序”，点击“启用或关闭Windows功能”，打开的窗口里勾选“.NET Framework 3.5”，然后让windows下载安装即可；
+* .\jpackage --type exe --name VLC媒体播放器 --input D:\_khz\jfx-media-main\jfx-media-main\target --main-jar vlcj-0.0.1-SNAPSHOT.jar --java-options "--add-opens java.base/java.lang=ALL-UNNAMED -Dis.packaged=true" --win-console --win-dir-chooser --win-shortcut --win-shortcut-prompt --icon D:\_khz\jfx-media-main\jfx-media-main\pack\win.ico --dest D:\_khz\jfx-media-main\jfx-media-main
 
 ## 开源协议
 Apache Licence 2.0 （[英文原文](http://www.apache.org/licenses/LICENSE-2.0.html)）
