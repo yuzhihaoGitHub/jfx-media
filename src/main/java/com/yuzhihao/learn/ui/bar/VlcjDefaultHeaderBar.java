@@ -64,7 +64,6 @@ public class VlcjDefaultHeaderBar {
                         list.add(search.getText());
                         MediaPlayerView.updatePlayer(list);
                         AppManager.getInstance().switchView(ApplicationView.MEDIA_PLAYER_VIEW);
-
                     }else{
                         new Toast("请输入媒体或播放地址：文件/URL！");
                     }

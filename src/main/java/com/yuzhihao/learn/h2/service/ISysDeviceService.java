@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.yuzhihao.learn.h2.entity.SysDevice;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -43,4 +44,5 @@ public interface ISysDeviceService extends IService<SysDevice> {
      * @return
      */
     PageInfo<SysDevice> listsOr(int pageIndex,int pageSize, SysDevice device);
+
 }
