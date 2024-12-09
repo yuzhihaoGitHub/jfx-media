@@ -1,9 +1,6 @@
 package com.yuzhihao.learn.config;
 
-import com.yuzhihao.learn.VlcjApplication;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil;
 import uk.co.caprica.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
 
@@ -43,6 +40,9 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         }
         try {
             String path = Objects.requireNonNull(getClass().getResource("/vlc/macos/lib")).getPath();
+            if(RuntimeUtil.isWindows()){
+                path = Objects.requireNonNull(getClass().getResource("/vlc/window/64/lib")).getPath();
+            }
             log.info("通过 springboot resources 目录读取 VLC LIB：{}", path);
             return new String[]{path};
         } catch (Exception e) {
@@ -184,7 +184,7 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         }
         if (RuntimeUtil.isWindows()) {
             for (int i = 0; i < LIBS.length; i++) {
-                LIBS[i] = "/vlc/window/lib/64/" + WIN_LIBS[i];
+                LIBS[i] = "/vlc/window/64/" + WIN_LIBS[i];
             }
             tempFile.createTempFile(WIN_LIBS, "lib");
         }
