@@ -38,8 +38,11 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
             log.info("通过 springboot resources 流 读取 VLC LIB：{}", tempFile.temParentPath);
             return new String[]{tempFile.temParentPath};
         }
+        String path = "./lib";
         try {
-            String path = Objects.requireNonNull(getClass().getResource("/vlc/macos/lib")).getPath();
+            if(RuntimeUtil.isMac()){
+                path = Objects.requireNonNull(getClass().getResource("/vlc/macos/lib")).getPath();
+            }
             if(RuntimeUtil.isWindows()){
                 path = Objects.requireNonNull(getClass().getResource("/vlc/window/64/lib")).getPath();
             }
@@ -48,7 +51,7 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         } catch (Exception e) {
             log.error("springboot resources 读取VLC LIB 失败：{}", e.getMessage(), e);
         }
-        return new String[]{"./lib"};
+        return new String[]{path};
     }
 
     /**
