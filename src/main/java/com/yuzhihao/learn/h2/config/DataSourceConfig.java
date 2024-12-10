@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import javax.sql.DataSource;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 

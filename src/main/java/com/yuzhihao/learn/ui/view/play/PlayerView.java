@@ -59,8 +59,6 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 final public class PlayerView extends Pane {
 
-
-
     private  final VBox load = new VBox();
 
     public final static MediaPlayerFactory MEDIA_PLAYER_FACTORY = new MediaPlayerFactory();
