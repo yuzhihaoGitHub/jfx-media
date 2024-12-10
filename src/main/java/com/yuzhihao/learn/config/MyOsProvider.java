@@ -57,21 +57,8 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         private String temParentPath;
 
         public TempFile(String tempDir) {
-            try {
-                File path = File.createTempFile(UUID.randomUUID().toString(), ".suffix");
-                this.parentPath = path.getParent() + "/vlc/";
-                this.temParentPath = parentPath + tempDir;
-                path.delete();
-            } catch (Exception e) {
-                boolean packaged = Objects.nonNull(System.getProperty("is.packaged"));
-                if (packaged) {
-                    if (RuntimeUtil.isMac()) {
-                        parentPath = Paths.get(System.getProperty("user.home"), "Library", "Application Support", "VLCJ", "temp").toString();
-                    } else if (RuntimeUtil.isWindows()) {
-                        parentPath = Paths.get(System.getenv("APPDATA"), "VLCJ", "temp").toString();
-                    }
-                }
-            }
+            this.parentPath = VlcRuntime.JAVA_HOME + "/vlc/";
+            this.temParentPath = parentPath + tempDir;
             log.info("临时文件目录：{}", temParentPath);
         }
 
