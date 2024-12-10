@@ -51,10 +51,13 @@ public class MyOsProvider implements DiscoveryDirectoryProvider {
         return new String[]{"./lib"};
     }
 
-    private final class TempFile {
+    /**
+     * 临时文件处理
+     */
+    private static final class TempFile {
 
-        private String parentPath;
-        private String temParentPath;
+        private final String parentPath;
+        private final String temParentPath;
 
         public TempFile(String tempDir) {
             this.parentPath = VlcRuntime.JAVA_HOME + "/vlc/";

@@ -30,13 +30,7 @@ public class DataSourceConfig {
 
     @Bean
     public DataSource dataSource(){
-        // 获取当前工作目录
-        log.info("应用程序目录: " + VlcRuntime.USER_DIR);
-
-        // 也可以尝试获取 java.home
-        log.info("Java 安装目录: " + VlcRuntime.JAVA_HOME);
         // 获取操作系统名称
-        String osName = System.getProperty("os.name").toLowerCase();
         boolean packaged = Objects.nonNull(System.getProperty("is.packaged"));
         String appName = environment.getProperty("spring.application.name","vlcj").toLowerCase();
 
@@ -44,11 +38,6 @@ public class DataSourceConfig {
         String dir = ".";
         if(packaged){
             dir = Paths.get(VlcRuntime.JAVA_HOME,  appName).toString();
-//            if (osName.contains("mac")) {
-//                dir = Paths.get(System.getProperty("user.home"), "Library", "Application Support", appName).toString();
-//            } else if (osName.contains("win")) {
-//                dir = Paths.get(System.getenv("APPDATA"), appName).toString();
-//            }
         }
         // 更新数据源 URL
         dataSourceProperties.setUrl(url.replace("${vlcj}",dir));
